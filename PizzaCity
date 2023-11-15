@@ -1,0 +1,98 @@
+import kotlin.math.round
+abstract class PizzaCity (
+    val neapolitanPizzaPrice: Double,
+    val romanPizzaPrice: Double,
+    val sicilianPizzaPrice: Double,
+    val tyroleanPizzaPrice: Double,
+){
+    var neapolitanPizzaCount = 0
+    var romanPizzaCount = 0
+    var tyroleanPizzaCount = 0
+    var sicilianPizzaCount = 0
+    var checkPhotoCount = 0
+    var drinkCount = 0
+    var souseketchup = 0
+    var sousecheese = 0
+    var cofeeneapol = 0
+    var cofeeroman = 0
+    var cofeesicili = 0
+    var cofeetyrolean = 0
+
+    abstract fun neapolitanPizzaSale()
+    abstract fun romanPizzaSale()
+    abstract fun tyroleanPizzaSale()
+    abstract fun sicilianPizzaSale()
+
+    fun showStatistics(city: String) {
+        var dohod = 0
+        println("Продано сицилийской пиццы: $sicilianPizzaCount")
+        println("Продано неаполитанской пиццы: $neapolitanPizzaCount")
+        println("Продано  римской пиццы: $romanPizzaCount")
+        println("Продано тирольской пиццы: $tyroleanPizzaCount")
+
+        when(city){
+            "Moscow"-> {
+
+                println("Показано чеков: $checkPhotoCount")
+                println("Сумма скидок: ${checkPhotoCount * 50} ")
+                println("Процентное соотношение предъявления фотографии чеков: ${round((checkPhotoCount.toDouble()/(sicilianPizzaCount+neapolitanPizzaCount+
+                        romanPizzaCount+tyroleanPizzaCount).toDouble()) * 100)} %"
+                )
+                dohod -= checkPhotoCount * 50
+            }
+            "Peter"-> {
+
+
+                drinkCount=cofeeneapol+cofeetyrolean+cofeeroman+cofeesicili
+                println("Всего продано кофе: $drinkCount")
+                println("Продано кофе к Неаполитанской пицце: $cofeeneapol в процентном соотношении: ${round((cofeeneapol.toDouble() / drinkCount) * 100)} % ")
+                println("Продано кофе к Сицилийской пицце: $cofeesicili в процентном соотношении: ${round((cofeesicili.toDouble() / drinkCount) * 100)} %")
+                println("Продано кофе к Римской пицце: $cofeeroman в процентном соотношении: ${round((cofeeroman.toDouble() / drinkCount) * 100)} %")
+                println("Продано кофе к Тирольской пицце: $cofeetyrolean в процентном соотношении: ${round((cofeetyrolean.toDouble() / drinkCount) * 100)} %")
+                println("Больше всего кофе было продано к : ${BestSellingCoffee()}")
+                println("Выручка за кофе: ${drinkCount * 200} ")
+                println("Процентное соотношение сколько людей берут кофе, а сколько – нет:     ${round((drinkCount.toDouble()/(sicilianPizzaCount+neapolitanPizzaCount+
+                        romanPizzaCount+tyroleanPizzaCount).toDouble()) * 100)}%"
+                )
+                dohod = drinkCount * 200
+            }
+            "Ekaterinburg"->{
+                drinkCount=cofeeneapol+cofeetyrolean+cofeeroman+cofeesicili
+                println("Показано чеков: $checkPhotoCount")
+                println("Сумма скидок: ${checkPhotoCount * 50} ")
+                println("Продано сырного соуса: $sousecheese")
+                println("Выручка за сырный соус: ${sousecheese * 60} ")
+                println("Продано соуса кетчуп: $souseketchup")
+                println("Выручка за соус кетчуп: ${souseketchup * 40} ")
+                println("Продано кофе: $drinkCount")
+                println("Продано кофе к Неаполитанской пицце: $cofeeneapol в процентном соотношении: ${round((cofeeneapol.toDouble() / drinkCount) * 100)} % ")
+                println("Продано кофе к Сицилийской пицце: $cofeesicili в процентном соотношении: ${round((cofeesicili.toDouble() / drinkCount) * 100)} %")
+                println("Продано кофе к Римской пицце: $cofeeroman в процентном соотношении: ${round((cofeeroman.toDouble() / drinkCount) * 100)} %")
+                println("Продано кофе к Тирольской пицце: $cofeetyrolean в процентном соотношении: ${round((cofeetyrolean.toDouble() / drinkCount) * 100)} %")
+                println("Больше всего кофе было продано к : ${BestSellingCoffee()}")
+                println("Выручка за кофе: ${drinkCount * 200} ")
+                println("Процентное соотношение сколько людей показывают фотографию чека, а сколько – нет: ${round((checkPhotoCount.toDouble()/(sicilianPizzaCount+neapolitanPizzaCount+
+                        romanPizzaCount+tyroleanPizzaCount).toDouble())*100)} %"
+                )
+                println("Процентное соотношение сколько людей берут кофе, а сколько – нет:     ${round((drinkCount.toDouble()/(sicilianPizzaCount+neapolitanPizzaCount+
+                        romanPizzaCount+tyroleanPizzaCount).toDouble()) * 100)}%"
+                )
+                dohod = souseketchup * 40 + sousecheese * 60 + drinkCount * 200 -checkPhotoCount * 50
+
+            }
+        }
+        val money = neapolitanPizzaCount * neapolitanPizzaPrice + romanPizzaCount * romanPizzaCount + tyroleanPizzaCount * tyroleanPizzaCount + sicilianPizzaCount * sicilianPizzaCount + dohod
+        println("Всего заработано денег: $money")
+    }
+    fun BestSellingCoffee(): String {
+        val coffeeMap = mapOf(
+            "Неаполитанскй пицце" to cofeeneapol,
+            "Римской пицце" to cofeeroman,
+            "Сицилийской пицце" to cofeesicili,
+            "Тирольской пицце" to cofeetyrolean
+        )
+        val bestSellingPizza = coffeeMap.maxBy { it.value }.key
+        return bestSellingPizza
+    }
+
+}
