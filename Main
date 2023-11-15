@@ -1,0 +1,74 @@
+import kotlin.system.exitProcess
+
+fun main() {
+    val pizzaPeter = PizzaPeter(
+        neapolitanPizzaPrice = 175.0, romanPizzaPrice = 241.5,
+        sicilianPizzaPrice = 167.5, tyroleanPizzaPrice = 215.0
+    )
+    val pizzaMoscow = PizzaMoscow(
+        neapolitanPizzaPrice = 215.0, romanPizzaPrice = 250.5,
+        sicilianPizzaPrice = 180.5, tyroleanPizzaPrice = 240.0,
+    )
+    val pizzaEkaterinburg = PizzaEkaterinburg (
+        250.0, 150.7,
+        230.0, 162.5
+    )
+    var currentPizzaCity: PizzaCity //переменная в которй мы храним выбранную пиццерию
+
+    while (true) {
+        println("Добрый день! Выберите город")
+        println("1. Москва\n2. Санкт-Петербург\n3. Екатеринбург\n0. Выход из программы")
+
+        currentPizzaCity = when (readln()) {
+            "1" -> pizzaMoscow
+            "2" -> pizzaPeter
+            "3" -> pizzaEkaterinburg
+            "0" -> break
+            else -> {
+                println("ERROR")
+                continue            }
+        }
+        println("Выберите пиццу: ")
+        println("1. Неаполитанская пицца\n2. Римская пицца\n3. Сицилийская пицца\n4. тирольская пицца\n0. Показать статистику")
+        when (readln()) {
+            "1" -> {
+                currentPizzaCity.neapolitanPizzaSale()
+                selectedAddService(currentPizzaCity)
+            }
+            "2"-> {
+                currentPizzaCity.romanPizzaSale()
+            selectedAddService(currentPizzaCity)
+            }
+            "3" -> {
+                currentPizzaCity.sicilianPizzaSale()
+            selectedAddService(currentPizzaCity)
+            }
+            "4" -> {
+                currentPizzaCity.tyroleanPizzaSale()
+            selectedAddService(currentPizzaCity)}
+            "0" -> currentPizzaCity.showStatistics(getCityName(currentPizzaCity))
+            else -> {
+                println("ERROR")
+                exitProcess(1)
+            }
+        }
+    }
+}
+fun getCityName(currentPizzaCity: PizzaCity): String {
+    return when (currentPizzaCity) {
+        is PizzaMoscow -> "Moscow"
+        is PizzaPeter -> "Peter"
+        is PizzaEkaterinburg -> "Ekaterinburg"
+        else -> "Unknown"
+    }
+}
+
+fun selectedAddService(currentPizzaCity: PizzaCity) {
+    when (currentPizzaCity) {
+        is PizzaEkaterinburg -> {
+            currentPizzaCity.showCheckPhoto()
+            currentPizzaCity.SouseSale()
+        }
+        is PizzaMoscow -> currentPizzaCity.showCheckPhoto()
+    }
+}
